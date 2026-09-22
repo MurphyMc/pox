@@ -249,6 +249,7 @@ class POXCookieGuardMixin (object):
     self.send_response(200)
     self.send_header("Content-type", "text/html")
     self.end_headers()
+    safe_target = cgi_escape(target)
     self.wfile.write(("""
       <html><head><title>POX CookieGuard</title></head>
       <body>
@@ -259,7 +260,7 @@ class POXCookieGuardMixin (object):
       that your browser (or other client) does not support cookies.
       </body>
       </html>
-      """ % (target, cgi_escape(target))).encode())
+      """ % (safe_target, safe_target)).encode())
 
   def _do_cookieguard_set_cookie (self, requested, bad_cookie):
     """
