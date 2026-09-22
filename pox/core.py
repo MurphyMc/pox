@@ -702,9 +702,13 @@ def initialize (threaded_selecthub=True, epoll_selecthub=False,
 # We should do something better.
 def _maybe_initialize ():
   import sys
-  if 'unittest' in sys.modules or 'nose' in sys.modules:
-    initialize()
-    return
+
+  test_runner_modules = ['unittest', 'nose', 'pytest']
+  for module_name in test_runner_modules:
+    if module_name in sys.modules:
+      initialize()
+      return
+
   import __main__
   mod = getattr(__main__, '__file__', '')
   if 'pydoc' in mod or 'pdoc' in mod:
